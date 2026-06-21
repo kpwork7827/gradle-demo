@@ -6,15 +6,18 @@ pipeline {
         disableConcurrentBuilds()
         buildDiscarder(logRotator(numToKeepStr: '10'))
     }
-docker push kpwork7827/gradle:tagname
+
+    triggers {
+        githubPush()
+    }
     environment {
-        APP_NAME = 'gradle-demo'
+        APP_NAME = 'gradle-demo-email'
         REGISTRY = 'docker.io/kpwork7827'
-        IMAGE_REPOSITORY = 'gradle'
+        IMAGE_REPOSITORY = 'gradle-demo-email'
         IMAGE_NAME = "${REGISTRY}/${IMAGE_REPOSITORY}"
         KUBE_NAMESPACE = 'gradle-demo'
-        KUBE_DEPLOYMENT = 'gradle'
-        CONTAINER_NAME = 'gradle'
+        KUBE_DEPLOYMENT = 'gradle-demo-email'
+        CONTAINER_NAME = 'gradle-demo-email'
         DOCKER_CREDENTIALS_ID = 'docker-registry-creds'
         KUBECONFIG_CREDENTIALS_ID = 'kubeconfig-creds'
     }
