@@ -1,0 +1,53 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: gradle-demo-email
+  namespace: gradle-demo
+  labels:
+    app: gradle-demo-email
+spec:
+  replicas: 2
+  revisionHistoryLimit: 3
+  selector:
+    matchLabels:
+      app: gradle-demo-email
+  template:
+    metadata:
+      labels:
+        app: gradle-demo-email
+    spec:
+      containers:
+        - name: gradle-demo-email
+          image: docker.io/kpwork7827/gradle-demo-email:latest
+          imagePullPolicy: Always
+          ports:
+            - name: http
+              containerPort: 8080
+          envFrom:
+            - configMapRef:
+                name: gradle-demo-email-config
+            - secretRef:
+                name: gradle-demo-email-secret
+          readinessProbe:
+            httpGet:
+              path: /api/emails/health
+              port: http
+            initialDelaySeconds: 15
+            periodSeconds: 10
+            timeoutSeconds: 3
+            failureThreshold: 3
+          livenessProbe:
+            httpGet:
+              path: /api/emails/health
+              port: http
+            initialDelaySeconds: 30
+            periodSeconds: 20
+            timeoutSeconds: 3
+            failureThreshold: 3
+          resources:
+            requests:
+              cpu: 100m
+              memory: 256Mi
+            limits:
+              cpu: 500m
+              memory: 512Mi

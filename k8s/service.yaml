@@ -1,0 +1,15 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: gradle-demo-email-service
+  namespace: gradle-demo
+  labels:
+    app: gradle-demo-email
+spec:
+  type: LoadBalancer
+  selector:
+    app: gradle-demo-email
+  ports:
+    - name: http
+      port: 80
+      targetPort: http

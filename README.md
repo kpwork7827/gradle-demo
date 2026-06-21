@@ -59,3 +59,21 @@ Use `POST /api/emails/send` with this sample body:
 
 - `GET /api/emails/health` - check service status
 - `POST /api/emails/send` - send real email through SMTP
+## CI/CD
+
+This project includes a complete Jenkins, Docker, and Kubernetes pipeline.
+
+Read the setup guide:
+
+```text
+docs/CICD-JENKINS.md
+```
+
+Pipeline/deployment files:
+
+```text
+Jenkinsfile
+Dockerfile
+.dockerignore
+k8s/
+```

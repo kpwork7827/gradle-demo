@@ -2,7 +2,7 @@
 SMTP_USERNAME: kpwork7827@gmail.com
 SMTP_PASSWORD:
 server:
-  port: ${SERVER_PORT:8081}
+  port: ${SERVER_PORT:8080}
 
 spring:
   application:

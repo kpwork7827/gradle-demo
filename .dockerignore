@@ -1,0 +1,14 @@
+.git
+.gradle
+.idea
+.vscode
+build
+out
+*.iml
+*.log
+.env
+Dockerfile
+Jenkinsfile
+README.md
+RUN-STEPS.md
+docs
