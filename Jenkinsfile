@@ -12,9 +12,10 @@ pipeline {
     }
     environment {
         APP_NAME = 'gradle-demo-email'
-        REGISTRY = 'docker.io/kpwork7827'
+        LOGIN_REGISTRY = 'docker.io'
+        IMAGE_NAMESPACE = 'kpwork7827'
         IMAGE_REPOSITORY = 'gradle-demo-email'
-        IMAGE_NAME = "${REGISTRY}/${IMAGE_REPOSITORY}"
+        IMAGE_NAME = "${LOGIN_REGISTRY}/${IMAGE_NAMESPACE}/${IMAGE_REPOSITORY}"
         KUBE_NAMESPACE = 'gradle-demo'
         KUBE_DEPLOYMENT = 'gradle-demo-email'
         CONTAINER_NAME = 'gradle-demo-email'
@@ -65,7 +66,7 @@ pipeline {
                     passwordVariable: 'DOCKER_PASSWORD'
                 )]) {
                     sh '''
-                        echo "${DOCKER_PASSWORD}" | docker login "${REGISTRY}" -u "${DOCKER_USERNAME}" --password-stdin
+                        echo "${DOCKER_PASSWORD}" | docker login "${LOGIN_REGISTRY}" -u "${DOCKER_USERNAME}" --password-stdin
                         docker push ${IMAGE_NAME}:${IMAGE_TAG}
                         docker push ${IMAGE_NAME}:latest
                     '''
@@ -97,7 +98,7 @@ pipeline {
             echo 'Pipeline failed. Check the failed stage logs above.'
         }
         always {
-            sh 'docker logout ${REGISTRY} || true'
+            sh 'docker logout ${LOGIN_REGISTRY} || true'
         }
     }
 }
